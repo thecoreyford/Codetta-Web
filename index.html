@@ -6,15 +6,29 @@
 	<script src="scratch-blocks/blockly_uncompressed_horizontal.js"></script>
 	<script src="scratch-blocks/msg/js/en.js"></script> <!-- messages for users language -->
 	<script src="scratch-blocks/blocks_horizontal/control.js"></script><!-- some provided test blocks -->
-
+	<script src="scratch-blocks/blocks/math.js"></script>
 </head>
 <body>
 	<div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 	<xml id="toolbox" style="display: none">
-		<category name="Basic" colour="320">
-  			<block type="control_forever"></block>
-  			<block type="control_repeat"></block>
+		<category name="Basic" colour="#008000">
+  			<block type="control_repeat">
+  				 <value name="TIMES">
+            		<shadow type="math_whole_number">
+             			<field name="NUM" opt_max="7">4</field>
+            		</shadow>
+          		</value>
+  			</block>
   		</category>
+  		<category name="Instrument" colour="#663399">
+  		</category>
+  		<category name="Time" colour="#ffff00">
+  		</category>
+  		<category name="Dynamics" colour="#ff69b4">
+  		</category>
+  		<category name="Pitch" colour="#0000ff">
+  		</category>
+
 	</xml>
 
 	<script>
