@@ -56,3 +56,35 @@ Blockly.Blocks['repeat'] = {
 };
 
 //========================================================================================
+
+Blockly.Blocks['tempo_setter'] = {
+  /**
+   * Block for setting the tempo.
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "tempo_setter",
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_number",
+          "min": 24,
+          "max": 550,
+          "value": 24,
+          "precision": 1,
+          "width": 40,
+          "height": 40,
+          "colour": "white"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#ffff00",
+      "colourSecondary": "#000000",
+      "colourTertiary": "#000000"
+    });
+  }
+};
+
+
