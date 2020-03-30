@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Top Secret Web Codetta (In Development)</title>
+	
+	<script src="scratch-blocks/blockly_uncompressed_horizontal.js"></script>
+	<script src="scratch-blocks/msg/js/en.js"></script> <!-- messages for users language -->
+	<script src="scratch-blocks/blocks_horizontal/control.js"></script><!-- some provided test blocks -->
+
+</head>
+<body>
+	<div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+	<xml id="toolbox" style="display: none">
+		<category name="Basic" colour="320">
+  			<block type="control_forever"></block>
+  			<block type="control_repeat"></block>
+  		</category>
+	</xml>
+
+	<script>
+		var workspace = Blockly.inject('blocklyDiv',
+  									   {horizontalLayout: true,
+  									   	toolbox: document.getElementById('toolbox')});
+	</script>
+</body>
+</html>
