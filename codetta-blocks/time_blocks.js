@@ -72,9 +72,6 @@ Blockly.Blocks['tempo_setter'] = {
           "max": 550,
           "value": 24,
           "precision": 1,
-          "width": 40,
-          "height": 40,
-          "colour": "white"
         }
       ],
       "inputsInline": true,

@@ -5,6 +5,8 @@
  * Copyright 2011 Google Inc.
  * https://developers.google.com/blockly/
  *
+ * Modifications copyright 2020 Corey Ford.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -1164,6 +1166,13 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
       do {
         var altRepeat = false;
         switch (element['type']) {
+          //=======================================================
+          // ADD CUSTOM FIELDS HERE!!!!!
+          case 'codetta_slider':
+            field = new Codetta.SliderField(element['number'], null,
+              element['precision'], element['min'], element['max']);
+            break;
+          //=======================================================
           case 'input_value':
             input = this.appendValueInput(element['name']);
             break;
