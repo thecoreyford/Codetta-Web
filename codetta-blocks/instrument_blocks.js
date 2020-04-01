@@ -11,7 +11,15 @@ goog.require('Blockly.Blocks');
 //========================================================================================
 
 /** Array of instruments, media files should match*/
-var inst = ["piano", "glock"]
+var inst = [
+	"piano", 
+	"glock", 
+	"violin", 
+	"viola", 
+	"cello", 
+	"trumpet", 
+	"synth"
+];
 
 for(var i = 0; i < inst.length; ++i){
 	Blockly.Blocks[inst[i]] = {
