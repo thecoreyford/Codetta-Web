@@ -78,7 +78,9 @@ Codetta.SliderField.prototype.init = function() {
   /** @type {SVGElement} */
   this.imageElement_ = Blockly.createSvgElement('image',
       {'height': this.height_ + 'px',
-       'width': this.width_ + 'px'}, this.fieldGroup_);
+       'width': this.width_ + 'px',
+   		'x': -4,
+   		'y': -8}, this.fieldGroup_);
   this.setValue(this.src_);
 
   if (goog.userAgent.GECKO) {
@@ -91,6 +93,9 @@ Codetta.SliderField.prototype.init = function() {
          'width': this.width_ + 'px',
          'fill-opacity': 0}, this.fieldGroup_);
   }
+  //====
+
+  //====
   this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
 
   // Configure the field to be transparent with respect to tooltips.

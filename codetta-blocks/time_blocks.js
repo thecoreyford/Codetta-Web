@@ -57,16 +57,20 @@ Blockly.Blocks['repeat'] = {
 
 //========================================================================================
 
+var ff = function(){
+  console.log("test");
+}
+
 /**
   * Block to set the tempo
   */
 Blockly.Blocks['tempo_setter'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Codetta.SliderField("https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-                                              50, /* width */
-                                              50, /* height */
-                                              null, /* onClick */
+        .appendField(new Codetta.SliderField("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
+                                              80, /* width */
+                                              80, /* height */
+                                              ff, /* onClick */
                                               "*", /* alt_text */
                                               false), /* rtl? */
                                               'tempo_setter');
