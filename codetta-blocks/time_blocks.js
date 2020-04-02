@@ -57,10 +57,6 @@ Blockly.Blocks['repeat'] = {
 
 //========================================================================================
 
-var ff = function(){
-  console.log("test");
-}
-
 /**
   * Block to set the tempo
   */
@@ -70,7 +66,6 @@ Blockly.Blocks['tempo_setter'] = {
         .appendField(new Codetta.SliderField("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
                                               80, /* width */
                                               80, /* height */
-                                              ff, /* onClick */
                                               "*", /* alt_text */
                                               false), /* rtl? */
                                               'tempo_setter');

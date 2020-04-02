@@ -36,7 +36,7 @@ goog.require('goog.userAgent');
 /**
  * Class for a codetta slider, based on a clickable image.
  */
-Codetta.SliderField = function(src, width, height, clickEvent, opt_alt, flip_rtl) {
+Codetta.SliderField = function(src, width, height, opt_alt, flip_rtl) {
   this.sourceBlock_ = null;
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
@@ -46,7 +46,7 @@ Codetta.SliderField = function(src, width, height, clickEvent, opt_alt, flip_rtl
   this.flipRTL_ = flip_rtl;
   this.setValue(src);
 
-  this.clickEvent = clickEvent;
+  this.clickEvent = clicked;
 };
 goog.inherits(Codetta.SliderField, Blockly.Field);
 
@@ -111,6 +111,10 @@ Codetta.SliderField.prototype.init = function() {
   }
 };
 
+var clicked = function(){
+	//TODO: do stuff here!
+}
+
 /**
  * Dispose of all DOM objects belonging to this text.
  */
@@ -119,6 +123,7 @@ Codetta.SliderField.prototype.dispose = function() {
   this.fieldGroup_ = null;
   this.imageElement_ = null;
   this.rectElement_ = null;
+  this.clickEvent = null;
 };
 
 /**
