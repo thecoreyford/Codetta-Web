@@ -34,6 +34,19 @@ Blockly.Blocks['repeater'] = {
   */
 Blockly.Blocks['tempo_setter'] = {
   init: function() {
+    //Create positionable text (so it can be used with the buttons also!)
+    var validator = function(input){
+      if(!isNaN(input)){
+        if (input < 24){return 24;}
+        if (input > 550){return 550;}
+      } else {
+        return 120;
+      }
+      return input;
+    }
+    var value = new Codetta.PositionableText("0",25,35.6,validator);
+    value.setValue("120");
+
     this.appendDummyInput()
         .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
                                               80, /* width */
@@ -49,7 +62,10 @@ Blockly.Blocks['tempo_setter'] = {
                                               "*", /* alt_text */
                                               false, /* rtl? */
                                               35 , 3,  /* x and y position */
-                                              function(){console.log("plus");}),
+                                              function()
+                                              {
+                                                value.setValue((parseInt(value.getValue(),10) + 1));
+                                              }),
                                               'tempo_setter_plus');
     this.appendDummyInput()
         .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_minus.png",
@@ -58,12 +74,13 @@ Blockly.Blocks['tempo_setter'] = {
                                               "*", /* alt_text */
                                               false, /* rtl? */
                                               35 , 21.5,  /* x and y position */
-                                              function(){console.log("minus");}),
+                                              function()
+                                              {
+                                                value.setValue((parseInt(value.getValue(),10) - 1));
+                                              }),
                                               'tempo_setter_minus');
     this.appendValueInput("tempo_setter_value")
-        .appendField(new Codetta.PositionableText("0",
-                                                  25,35.6), 
-                                                  "tempo_setter_value");
+        .appendField (value, "tempo_setter_value");
 
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
