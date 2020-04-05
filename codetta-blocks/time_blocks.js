@@ -63,13 +63,22 @@ Blockly.Blocks['repeat'] = {
 Blockly.Blocks['tempo_setter'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Codetta.SliderField("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
+        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
                                               80, /* width */
                                               80, /* height */
                                               "*", /* alt_text */
-                                              false), /* rtl? */
+                                              false, /* rtl? */
+                                              -4 , -8), /* x and y position */
                                               'tempo_setter');
-    this.setColour("#ff00ff");
+    this.appendDummyInput()
+        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
+                                              80, /* width */
+                                              80, /* height */
+                                              "*", /* alt_text */
+                                              false, /* rtl? */
+                                              -4 , 24,  /* x and y position */
+                                              function(){console.log("some");}),
+                                              'tempo_setter');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#ffff00", "#000000", "#000000");

@@ -21,12 +21,12 @@
  */
 
 /**
- * @fileoverview Slider, used for number blocks.
+ * @fileoverview Positionable and clickable image field. 
  * @author corey2.ford@live.uwe.ac.uk (Corey Ford)
  */
 'use strict';
 
-goog.provide('Codetta.SliderField');
+goog.provide('Codetta.ClickableImage');
 
 goog.require('Blockly.Field');
 goog.require('goog.dom');
@@ -34,9 +34,9 @@ goog.require('goog.math.Size');
 goog.require('goog.userAgent');
 
 /**
- * Class for a codetta slider, based on a clickable image.
+ * Class for a positionable, and clickable image. 
  */
-Codetta.SliderField = function(src, width, height, opt_alt, flip_rtl) {
+Codetta.ClickableImage = function(src, width, height, opt_alt, flip_rtl, opt_x, opt_y, clickEvent) {
   this.sourceBlock_ = null;
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
@@ -45,27 +45,29 @@ Codetta.SliderField = function(src, width, height, opt_alt, flip_rtl) {
   this.text_ = opt_alt || '';
   this.flipRTL_ = flip_rtl;
   this.setValue(src);
+  this.opt_x_ = opt_x || 0;
+  this.opt_y_ = opt_y || 0;
 
-  this.clickEvent = clicked;
+  this.clickEvent_ = clickEvent || function(){console.log("none");};
 };
-goog.inherits(Codetta.SliderField, Blockly.Field);
+goog.inherits(Codetta.ClickableImage, Blockly.Field);
 
 /**
  * Rectangular mask used by Firefox.
  * @type {Element}
  * @private
  */
-Codetta.SliderField.prototype.rectElement_ = null;
+Codetta.ClickableImage.prototype.rectElement_ = null;
 
 /**
  * Editable fields are saved by the XML renderer, non-editable fields are not.
  */
-Codetta.SliderField.prototype.EDITABLE = false;
+Codetta.ClickableImage.prototype.EDITABLE = false;
 
 /**
  * Install this image on a block.
  */
-Codetta.SliderField.prototype.init = function() {
+Codetta.ClickableImage.prototype.init = function() {
   if (this.fieldGroup_) {
     // Image has already been initialized once.
     return;
@@ -75,12 +77,12 @@ Codetta.SliderField.prototype.init = function() {
   if (!this.visible_) {
     this.fieldGroup_.style.display = 'none';
   }
-  /** @type {SVGElement} */
+  /** SVG Element for the image */
   this.imageElement_ = Blockly.createSvgElement('image',
       {'height': this.height_ + 'px',
        'width': this.width_ + 'px',
-   		'x': -4,
-   		'y': -8}, this.fieldGroup_);
+   		'x': this.opt_x_,
+   		'y': this.opt_y_}, this.fieldGroup_);
   this.setValue(this.src_);
 
   if (goog.userAgent.GECKO) {
@@ -93,9 +95,7 @@ Codetta.SliderField.prototype.init = function() {
          'width': this.width_ + 'px',
          'fill-opacity': 0}, this.fieldGroup_);
   }
-  //====
 
-  //====
   this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
 
   // Configure the field to be transparent with respect to tooltips.
@@ -105,25 +105,21 @@ Codetta.SliderField.prototype.init = function() {
 
   // add click listener to function
   // with thanks to this thread: https://groups.google.com/forum/#!topic/blockly/iv-CDztU4Go
-  if (this.clickEvent) {
-  	this.imageElement_.addEventListener("click", this.clickEvent);
+  if (this.clickEvent_) {
+  	this.imageElement_.addEventListener("click", this.clickEvent_);
 
   }
 };
 
-var clicked = function(){
-	//TODO: do stuff here!
-}
-
 /**
  * Dispose of all DOM objects belonging to this text.
  */
-Codetta.SliderField.prototype.dispose = function() {
+Codetta.ClickableImage.prototype.dispose = function() {
   goog.dom.removeNode(this.fieldGroup_);
   this.fieldGroup_ = null;
   this.imageElement_ = null;
   this.rectElement_ = null;
-  this.clickEvent = null;
+  this.clickEvent_ = null;
 };
 
 /**
@@ -131,7 +127,7 @@ Codetta.SliderField.prototype.dispose = function() {
  * @param {string|!Element} newTip Text for tooltip or a parent element to
  *     link to for its tooltip.
  */
-Codetta.SliderField.prototype.setTooltip = function(newTip) {
+Codetta.ClickableImage.prototype.setTooltip = function(newTip) {
   var topElement = this.rectElement_ || this.imageElement_;
   topElement.tooltip = newTip;
 };
@@ -141,7 +137,7 @@ Codetta.SliderField.prototype.setTooltip = function(newTip) {
  * @return {string} Current text.
  * @override
  */
-Codetta.SliderField.prototype.getValue = function() {
+Codetta.ClickableImage.prototype.getValue = function() {
   return this.src_;
 };
 
@@ -150,7 +146,7 @@ Codetta.SliderField.prototype.getValue = function() {
  * @param {?string} src New source.
  * @override
  */
-Codetta.SliderField.prototype.setValue = function(src) {
+Codetta.ClickableImage.prototype.setValue = function(src) {
   if (src === null) {
     // No change if null.
     return;
@@ -166,7 +162,7 @@ Codetta.SliderField.prototype.setValue = function(src) {
  * Get whether to flip this image in RTL
  * @return {boolean} True if we should flip in RTL.
  */
-Codetta.SliderField.prototype.getFlipRTL = function() {
+Codetta.ClickableImage.prototype.getFlipRTL = function() {
   return this.flipRTL_;
 };
 
@@ -175,7 +171,7 @@ Codetta.SliderField.prototype.getFlipRTL = function() {
  * @param {?string} alt New alt text.
  * @override
  */
-Codetta.SliderField.prototype.setText = function(alt) {
+Codetta.ClickableImage.prototype.setText = function(alt) {
   if (alt === null) {
     // No change if null.
     return;
@@ -187,6 +183,6 @@ Codetta.SliderField.prototype.setText = function(alt) {
  * Images are fixed width, no need to render.
  * @private
  */
-Codetta.SliderField.prototype.render_ = function() {
+Codetta.ClickableImage.prototype.render_ = function() {
   // NOP
 };
