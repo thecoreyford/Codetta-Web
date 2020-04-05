@@ -44,7 +44,7 @@ Blockly.Blocks['tempo_setter'] = {
       }
       return input;
     }
-    var value = new Codetta.PositionableText("0",25,35.6,validator);
+    var value = new Codetta.PositionableText("0",24.4,35.6,validator);
     value.setValue("120");
 
     this.appendDummyInput()
