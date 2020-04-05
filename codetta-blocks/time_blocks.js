@@ -71,14 +71,24 @@ Blockly.Blocks['tempo_setter'] = {
                                               -4 , -8), /* x and y position */
                                               'tempo_setter');
     this.appendDummyInput()
-        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
-                                              80, /* width */
-                                              80, /* height */
+        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_plus.png",
+                                              27, /* width */
+                                              27, /* height */
                                               "*", /* alt_text */
                                               false, /* rtl? */
-                                              -4 , 24,  /* x and y position */
-                                              function(){console.log("some");}),
-                                              'tempo_setter');
+                                              35 , 3,  /* x and y position */
+                                              function(){console.log("plus");}),
+                                              'tempo_setter_plus');
+    this.appendDummyInput()
+        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_minus.png",
+                                              27, /* width */
+                                              27, /* height */
+                                              "*", /* alt_text */
+                                              false, /* rtl? */
+                                              35 , 21,  /* x and y position */
+                                              function(){console.log("minus");}),
+                                              'tempo_setter_minus');
+
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#ffff00", "#000000", "#000000");
