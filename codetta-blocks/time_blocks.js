@@ -85,9 +85,13 @@ Blockly.Blocks['tempo_setter'] = {
                                               27, /* height */
                                               "*", /* alt_text */
                                               false, /* rtl? */
-                                              35 , 21,  /* x and y position */
+                                              35 , 21.5,  /* x and y position */
                                               function(){console.log("minus");}),
                                               'tempo_setter_minus');
+    this.appendValueInput("tempo_setter_value")
+        .appendField(new Codetta.PositionableText("0",
+                                                  25,35.6), 
+                                                  "tempo_setter_value");
 
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
