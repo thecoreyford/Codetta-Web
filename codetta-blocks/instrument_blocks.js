@@ -8,6 +8,8 @@
 
 goog.require('Blockly.Blocks');
 
+var string = "https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/instruments/"
+
 //========================================================================================
 
 /** Piano Block */
@@ -19,7 +21,7 @@ Blockly.Blocks["piano"] = {
       "args0": [
         {
           "type": "field_image",
-          "src": "https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/instruments/" + "piano" + ".png",
+          "src":  string + "piano.png",
           "width": 40,
           "height": 40,
           "alt": "piano",
