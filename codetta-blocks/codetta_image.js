@@ -20,6 +20,8 @@
  * limitations under the License.
  */
 
+ // TODO: consider refactoring using inheritence, allthough this works well its bugging me
+
 /**
  * @fileoverview Positionable and clickable image field. 
  * @author corey2.ford@live.uwe.ac.uk (Corey Ford)
