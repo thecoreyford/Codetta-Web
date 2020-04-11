@@ -18,10 +18,12 @@ ___
 ___
 ## License
 * Google's closure and the mit scratch-blocks repo are under the Apache License Version 2.0. 
+* Modifications to the core source files are noted at the top of the file. 
 ___
 
 ## Acknowledgments
 Thanks to:
 *  **Chris Nash** for the fantastic support supervising my undergraduate  + masters dissertation. 
 *  **Sam Hunt** for providing feeback, dev advice and providing old soundfonts. 
-*  **Espresso Programming Staff** for helping my transition into working with Javascript. 
+*  **Espresso Programming Staff** for helping my transition into working with Javascript.
+*  **The Blockly Community** for providing invaluable help through the google groups. 
