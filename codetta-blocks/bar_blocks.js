@@ -24,6 +24,7 @@ Blockly.Blocks['fourfour_bar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#008000", "#000000", "#000000");
+    this.extension = 40;
   }
 };
 

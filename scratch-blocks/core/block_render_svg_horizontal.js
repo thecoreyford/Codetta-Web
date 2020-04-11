@@ -5,6 +5,8 @@
  * Copyright 2012 Google Inc.
  * https://developers.google.com/blockly/
  *
+ * Modifications Copyright (11 April) 2020 Corey Ford (corey2.ford@live.uwe.ac.uk).
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -425,7 +427,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function() {
 
   // Always render image field at 40x40 px
   // Normal block sizing
-  metrics.width = Blockly.BlockSvg.SEP_SPACE_X * 2 + Blockly.BlockSvg.IMAGE_FIELD_WIDTH;
+  metrics.width = Blockly.BlockSvg.SEP_SPACE_X * 2 + Blockly.BlockSvg.IMAGE_FIELD_WIDTH + this.extension;//corey
   metrics.height = Blockly.BlockSvg.SEP_SPACE_Y * 2 + Blockly.BlockSvg.IMAGE_FIELD_HEIGHT;
 
   if (this.outputConnection) {
@@ -481,7 +483,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(metrics) {
     // Image field's position is calculated relative to the "end" edge of the
     // block.
     var imageFieldX = metrics.width - imageFieldSize.width -
-        Blockly.BlockSvg.SEP_SPACE_X / 1.5;
+        Blockly.BlockSvg.SEP_SPACE_X + this.extension / 1.5;//corey
     var imageFieldY = metrics.height - imageFieldSize.height -
         Blockly.BlockSvg.SEP_SPACE_Y;
     var imageFieldScale = "scale(1 1)";
@@ -490,10 +492,10 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(metrics) {
       if (metrics.imageField.getFlipRTL()) {
         imageFieldScale = "scale(-1 1)";
         imageFieldX = -metrics.width + imageFieldSize.width +
-            Blockly.BlockSvg.SEP_SPACE_X / 1.5;
+            Blockly.BlockSvg.SEP_SPACE_X + this.extension / 1.5;//corey
       } else {
         // If not, don't offset by imageFieldSize.width
-        imageFieldX = -metrics.width + Blockly.BlockSvg.SEP_SPACE_X / 1.5;
+        imageFieldX = -metrics.width + Blockly.BlockSvg.SEP_SPACE_X + this.extension / 1.5;//corey
       }
     }
     if (imageField) {

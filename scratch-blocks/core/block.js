@@ -5,7 +5,7 @@
  * Copyright 2011 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Modifications copyright 2020 Corey Ford.
+ * Modifications Copyright (11 April) 2020 Corey Ford (corey2.ford@live.uwe.ac.uk).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +74,9 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   this.tooltip = '';
   /** @type {boolean} */
   this.contextMenu = true;
+
+  // used to make the block longer (by Corey) 
+  this.extension = 0;
 
   /**
    * @type {Blockly.Block}
