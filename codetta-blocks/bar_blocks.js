@@ -18,7 +18,7 @@ Blockly.Blocks['fourfour_bar'] = {
                                               160, /* width */
                                               200, /* height */
                                               -76, /* x */
-                                              +119), /* y position */
+                                              +149.5), /* y position */
                                               'tempo_setter');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

@@ -59,11 +59,12 @@ Codetta.VexflowField.prototype.init = function() {
         'x': this.x_,
         'y': this.y_,
         'width': this.width_,
-        'height': this.height_
+        'height': 60
    });
 
   // make div for vexflow 
   this.divElement_ = document.createElement('div');
+  this.divElement_.style.backgroundColor = "white";
 
   //=========================================
   // do the vexflow stuff 
@@ -75,7 +76,7 @@ Codetta.VexflowField.prototype.init = function() {
 
   var context = renderer.getContext();
 
-  var stave = new VF.Stave(0,0,this.width_);
+  var stave = new VF.Stave(0, -30,this.width_);
 
   stave.addTimeSignature("4/4");
 
@@ -83,10 +84,10 @@ Codetta.VexflowField.prototype.init = function() {
 
 
   var notes = [
-    new VF.StaveNote({clef: "treble", keys: ["c/5"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["c/5"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["c/5"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["c/5"], duration: "q" }) 
+    new VF.StaveNote({clef: "treble", keys: ["c/4"], duration: "q" }),
+    new VF.StaveNote({clef: "treble", keys: ["e/4"], duration: "q" }),
+    new VF.StaveNote({clef: "treble", keys: ["g/4"], duration: "q" }),
+    new VF.StaveNote({clef: "treble", keys: ["g/5"], duration: "q" }) 
   ];
 
 
