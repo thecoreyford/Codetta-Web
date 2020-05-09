@@ -14,17 +14,16 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['fourfour_bar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
-                                              80, /* width */
-                                              80, /* height */
-                                              "*", /* alt_text */
-                                              false, /* rtl? */
-                                              -4 , -8), /* x and y position */
+        .appendField(new Codetta.VexflowField("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/tempo_setter.png",
+                                              160, /* width */
+                                              200, /* height */
+                                              -76, /* x */
+                                              +119), /* y position */
                                               'tempo_setter');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#008000", "#000000", "#000000");
-    this.extension = 40;
+    this.extension = 120;
   }
 };
 
