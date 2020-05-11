@@ -31,7 +31,11 @@ goog.provide('Codetta.VexflowField');
 
 goog.require('Blockly.FieldImage');
 
+// Constant for vexflow
+const VF = Vex.Flow;
+
 /**
+ *
  */
 Codetta.VexflowField = function(src, width, height, x, y) {
   Codetta.VexflowField.superClass_.constructor.call(this, 
@@ -68,32 +72,27 @@ Codetta.VexflowField.prototype.init = function() {
 
   //=========================================
   // do the vexflow stuff 
-  const VF = Vex.Flow;
 
-  var renderer = new VF.Renderer(this.divElement_, VF.Renderer.Backends.SVG);
+  this.renderer_ = new VF.Renderer(this.divElement_, VF.Renderer.Backends.SVG);
 
-  renderer.resize(this.width_, 100);
+  this.renderer_.resize(this.width_, 100);
 
-  var context = renderer.getContext();
+  this.context_ = this.renderer_.getContext();
 
-  var stave = new VF.Stave(0, -30,this.width_);
+  this.stave_ = new VF.Stave(0, -30, this.width_);
 
-  stave.addTimeSignature("4/4");
+  this.stave_.addTimeSignature("4/4");
 
-  stave.setContext(context).draw();
-
+  this.stave_.setContext(this.context_).draw();
 
   var notes = [
-    new VF.StaveNote({clef: "treble", keys: ["c/4"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["e/4"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["g/4"], duration: "q" }),
-    new VF.StaveNote({clef: "treble", keys: ["g/5"], duration: "q" }) 
+    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
+    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
+    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
+    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }) 
   ];
 
-
-  var voice = [new VF.Voice({num_beats: 4,  beat_value: 4}).addTickables(notes)];
-  var formatter = new VF.Formatter().joinVoices(voice).format(voice, this.width_);
-  voice.forEach(function(v) { v.draw(context, stave); })
+  this.updateBar(notes);
 
   //=========================================
 
@@ -105,7 +104,12 @@ Codetta.VexflowField.prototype.init = function() {
 };
 
 
-
-
-
+/**
+ *    
+ */
+Codetta.VexflowField.prototype.updateBar = function(noteData) {
+  var beams = VF.Beam.generateBeams(noteData);
+  VF.Formatter.FormatAndDraw(this.context_, this.stave_, noteData);
+  beams.forEach(function(b) {b.setContext(this.context_).draw()})
+};
 
