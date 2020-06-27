@@ -37,9 +37,9 @@ const VF = Vex.Flow;
 /**
  *
  */
-Codetta.VexflowField = function(src, width, height, x, y) {
+Codetta.VexflowField = function(width, height, x, y, no_crotchets) {
   Codetta.VexflowField.superClass_.constructor.call(this, 
-                                                    src, 
+                                                    null, 
                                                     width, 
                                                     height, 
                                                     "*", 
@@ -47,6 +47,7 @@ Codetta.VexflowField = function(src, width, height, x, y) {
 
   this.x_ = x;
   this.y_ = y;
+  this.no_crotchets_ = no_crotchets;
 };
 goog.inherits(Codetta.VexflowField, Blockly.FieldImage);
 
@@ -79,19 +80,11 @@ Codetta.VexflowField.prototype.init = function() {
 
   this.context_ = this.renderer_.getContext();
 
-  this.stave_ = new VF.Stave(0, -30, this.width_);
-
-  this.stave_.addTimeSignature("4/4");
-
-  this.stave_.setContext(this.context_).draw();
-
-  var notes = [
-    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
-    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
-    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
-    new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }) 
-  ];
-
+  var notes = [ ];
+  for (var i = 0; i < this.no_crotchets_; ++i)
+  {
+    notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
+  }
   this.updateBar(notes);
 
   //=========================================
@@ -108,8 +101,17 @@ Codetta.VexflowField.prototype.init = function() {
  *    
  */
 Codetta.VexflowField.prototype.updateBar = function(noteData) {
+  console.log(this.context_);
+  this.context_.clear();
+
+  this.stave_ = new VF.Stave(0, -30, this.width_);
+  this.stave_.addTimeSignature(this.no_crotchets_.toString() + "/4");
+  this.stave_.setContext(this.context_).draw();
+
   var beams = VF.Beam.generateBeams(noteData);
   VF.Formatter.FormatAndDraw(this.context_, this.stave_, noteData);
-  beams.forEach(function(b) {b.setContext(this.context_).draw()})
+  var contextCopy = this.context_; // not sure why this is needed by hey ho!
+  beams.forEach(function(b) {b.setContext(contextCopy).draw()})
+    
 };
 
