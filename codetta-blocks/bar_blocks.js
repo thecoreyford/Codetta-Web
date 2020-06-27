@@ -11,8 +11,10 @@ goog.require('Blockly.Blocks');
 /**
   * Block to set the tempo
   */
-Blockly.Blocks['fourfour_bar'] = {
-  init: function() {
+Blockly.Blocks['fourfour_bar'] = 
+{
+  init: function() 
+  {
 
   	//===================================================
   	//Variables
@@ -24,11 +26,14 @@ Blockly.Blocks['fourfour_bar'] = {
                                             +149.5, /* y */
                                             4);
 
+  	//TODO: move note picker
+  	// willl need to create field variables here and adjust as needed!!!!
+
   	/** Array of notes for this bar. */
   	var notes = [];
 
-  	// No of notes filled in this bar.
-  	var notesFilled = 4/4; 
+  	var notePickerHead = 0;
+  	var previouslyAddedRests = 0;
 
 	//===================================================
   	//Attributes
@@ -42,8 +47,7 @@ Blockly.Blocks['fourfour_bar'] = {
 	                                          "*", /* alt_text */
 	                                          false, /* rtl? */
 	                                          35 , 4,  /* x and y position */
-	                                          function(e)
-	                                          {
+	                                          function(e){
 	                                          	addNote(e);
 	                                          }),
 	                                          'fourfour_bar_add');
@@ -55,7 +59,9 @@ Blockly.Blocks['fourfour_bar'] = {
 	                                          "*", /* alt_text */
 	                                          false, /* rtl? */
 	                                          40 , 37,  /* x and y position */
-	                                          function(){removeNote()}),
+	                                          function(){
+	                                          	removeNote();
+	                                          }),
 	                                          'fourfour_bar_remove');
     
     this.setPreviousStatement(true, null);
@@ -71,47 +77,65 @@ Blockly.Blocks['fourfour_bar'] = {
   	 */
     function addNote(e)
     {
-      	var menuChoices = [ {
-      						    text: "whole = 1/2",
-							    enabled: true,
-							    callback: function()
-							  			{
-							  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "w" }));
-							  				vexField.updateBar(notes);  
-							  				Blockly.ContextMenu.hide();
-							  			}
-							},
-      						{
-      						    text: "half = 1/2",
-							    enabled: true,
-							    callback: function()
-							  			{
-							  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "h" }));
-							  				vexField.updateBar(notes);  
-							  				Blockly.ContextMenu.hide();
-							  			}
-							},
-      						{
-      						    text: "\u2669 = 1/4",
-							    enabled: true,
-							    callback: function()
-							  			{
-							  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "q" }));
-							  				vexField.updateBar(notes);  
-							  				Blockly.ContextMenu.hide();
-							  			}
-							},
-							{
-							   text: "\u266A = 1/8",
-							   enabled: true,
-							   callback: function()
-							  			{
-							  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "8" }));
-							  				vexField.updateBar(notes);  
-							  				Blockly.ContextMenu.hide();
-							  			}
-							}				
-						  ];	 
+    	// menu options 
+    	var whole = {text: "whole = 1/2",
+				     enabled: true,
+				     callback: function()
+				  			   {
+				  			  	clearRests();
+				  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "w" }));
+				  				notePickerHead = 8;
+				  				addRestsToBar();
+				  				vexField.updateBar(notes);  
+				  				Blockly.ContextMenu.hide();
+				  			   }
+					};
+
+		var half = {text: "half = 1/2",
+				    enabled: true,
+				    callback: function()
+				  			  {
+				  			  	clearRests();
+				  				notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "h" }));
+				  				notePickerHead += 4;
+				  				addRestsToBar();
+				  				vexField.updateBar(notes);  
+				  				Blockly.ContextMenu.hide();
+				  			  }
+					};
+
+		var quarter = {text: "\u2669 = 1/4",
+					   enabled: true,
+					   callback: function()
+								 {
+								 	clearRests();
+									notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "q" }));
+									notePickerHead += 2;
+									addRestsToBar();
+									vexField.updateBar(notes);  
+									Blockly.ContextMenu.hide();
+								 }
+					  };
+
+		var eight = {text: "\u266A = 1/8",
+					 enabled: true,
+				     callback: function()
+				  			   {
+				  			 	 clearRests();
+				  				 notes.push(new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "8" }));
+				  				 notePickerHead += 1;
+				  				 addRestsToBar();
+				  				 vexField.updateBar(notes);  
+				  				 Blockly.ContextMenu.hide();
+				  			   }
+					};	
+
+		// populate adjusted menu choices
+      	var menuChoices = [];
+      	if (notePickerHead <= 0) { menuChoices.push(whole)};
+      	if (notePickerHead <= 4) { menuChoices.push(half)};
+      	if (notePickerHead <= 6) { menuChoices.push(quarter)};
+      	if (notePickerHead <= 7) { menuChoices.push(eight)};
 
       	Blockly.ContextMenu.show(e, menuChoices, false);
     }
@@ -121,9 +145,67 @@ Blockly.Blocks['fourfour_bar'] = {
   	 */
     function removeNote()
     {
-    	if(notes.length != 0){	
+    	clearRests();
+    	if(notes.length != 0){
+    		//get length of last note (update notePicker Head accordingly 
+    		var last = notes[notes.length - 1].duration;
+    		if(last == 'w'){}
+    		switch(last){
+    			case 'w':
+    				notePickerHead -= 8;
+    				break;
+    			case 'h':
+    				notePickerHead -= 4;
+    				break;
+    			case 'q':
+    				notePickerHead -= 2;
+    				break;
+    			case '8':
+    				notePickerHead -= 1;
+    				break;
+    			default:
+    				console.log("default");
+    				break;
+    		}
+    		// remove this note
     		notes.pop();
+    		// add rests back to the bar and update
+    		addRestsToBar();
     		vexField.updateBar(notes);
+    	}
+    }
+
+    /** 
+     * Removes all rests from the bar. 
+     */
+    function clearRests()
+    {
+    	for(var i = 0; i < previouslyAddedRests; ++i){
+    		notes.pop();
+    	}
+    }
+
+    /** 
+     * Adds remaining rests to the bar. 
+     */
+    function addRestsToBar()
+    {
+    	previouslyAddedRests = 0;
+    	var noRests = 8 - notePickerHead; 
+    	while(noRests != 0)
+    	{
+			if(noRests % 2 == 1)
+			{
+				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "8r" }));
+				noRests -= 1;
+				previouslyAddedRests += 1;
+			}
+			else
+			{
+				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
+				noRests -= 2;
+				previouslyAddedRests += 1;
+			}
     	}
     }
   
