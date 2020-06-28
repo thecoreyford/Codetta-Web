@@ -70,10 +70,6 @@ Codetta.ClickableImage.prototype.EDITABLE = false;
  * Install this image on a block.
  */
 Codetta.ClickableImage.prototype.init = function() {
-  if (this.fieldGroup_) {
-    // Image has already been initialized once.
-    return;
-  }
   // Build the DOM.
   this.fieldGroup_ = Blockly.createSvgElement('g', {}, null); //like parent component!
   if (!this.visible_) {
@@ -83,8 +79,8 @@ Codetta.ClickableImage.prototype.init = function() {
   this.imageElement_ = Blockly.createSvgElement('image',
       {'height': this.height_ + 'px',
        'width': this.width_ + 'px',
-   		'x': this.opt_x_,
-   		'y': this.opt_y_}, this.fieldGroup_);
+   		 'x': this.opt_x_,
+   		 'y': this.opt_y_}, this.fieldGroup_);
   this.setValue(this.src_);
 
   if (goog.userAgent.GECKO) {
@@ -114,6 +110,15 @@ Codetta.ClickableImage.prototype.init = function() {
 };
 
 /**
+ *  Redraws the image at the new X position.  
+ */
+Codetta.ClickableImage.prototype.setX = function(newX) {
+  goog.dom.removeNode(this.fieldGroup_); //delete field group!
+  this.opt_x_ = newX;
+  this.init(); //re inisitalise at new position!
+}
+
+/**
  * Dispose of all DOM objects belonging to this text.
  */
 Codetta.ClickableImage.prototype.dispose = function() {
@@ -122,16 +127,6 @@ Codetta.ClickableImage.prototype.dispose = function() {
   this.imageElement_ = null;
   this.rectElement_ = null;
   this.clickEvent_ = null;
-};
-
-/**
- * Change the tooltip text for this field.
- * @param {string|!Element} newTip Text for tooltip or a parent element to
- *     link to for its tooltip.
- */
-Codetta.ClickableImage.prototype.setTooltip = function(newTip) {
-  var topElement = this.rectElement_ || this.imageElement_;
-  topElement.tooltip = newTip;
 };
 
 /**
@@ -160,31 +155,3 @@ Codetta.ClickableImage.prototype.setValue = function(src) {
   }
 };
 
-/**
- * Get whether to flip this image in RTL
- * @return {boolean} True if we should flip in RTL.
- */
-Codetta.ClickableImage.prototype.getFlipRTL = function() {
-  return this.flipRTL_;
-};
-
-/**
- * Set the alt text of this image.
- * @param {?string} alt New alt text.
- * @override
- */
-Codetta.ClickableImage.prototype.setText = function(alt) {
-  if (alt === null) {
-    // No change if null.
-    return;
-  }
-  this.text_ = alt;
-};
-
-/**
- * Images are fixed width, no need to render.
- * @private
- */
-Codetta.ClickableImage.prototype.render_ = function() {
-  // NOP
-};

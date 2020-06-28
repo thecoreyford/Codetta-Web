@@ -25,23 +25,8 @@ Blockly.Blocks['fourfour_bar'] =
                                             -76, /* x */
                                             +149.5, /* y */
                                             4);
-
-  	//TODO: move note picker
-  	// willl need to create field variables here and adjust as needed!!!!
-
-  	/** Array of notes for this bar. */
-  	var notes = [];
-
-  	var notePickerHead = 0;
-  	var previouslyAddedRests = 0;
-
-	//===================================================
-  	//Attributes
-    this.appendDummyInput()
-        .appendField(vexField, 'tempo_setter');
-
-    this.appendDummyInput()
-	    .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_add.png",
+  	/** Note picker adder field */
+  	var addField = new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_add.png",
 	                                          34, /* width */
 	                                          34, /* height */
 	                                          "*", /* alt_text */
@@ -49,11 +34,10 @@ Blockly.Blocks['fourfour_bar'] =
 	                                          35 , 4,  /* x and y position */
 	                                          function(e){
 	                                          	addNote(e);
-	                                          }),
-	                                          'fourfour_bar_add');
+	                                          });
 
-    this.appendDummyInput()
-	    .appendField(new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_remove.png",
+  	/** Note picker remove field */
+  	var removeField = new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_remove.png",
 	                                          23, /* width */
 	                                          23, /* height */
 	                                          "*", /* alt_text */
@@ -61,8 +45,25 @@ Blockly.Blocks['fourfour_bar'] =
 	                                          40 , 37,  /* x and y position */
 	                                          function(){
 	                                          	removeNote();
-	                                          }),
-	                                          'fourfour_bar_remove');
+	                                          });
+
+  	/** Array of notes for this bar. */
+  	var notes = [];
+  	/** Tracker for the note picker's current postition.*/
+  	var notePickerHead = 0;
+  	/** Number of rests previously added back to the bar.*/
+  	var previouslyAddedRests = 0;
+
+	//===================================================
+  	//inialisation
+    this.appendDummyInput()
+        .appendField(vexField, 'tempo_setter');
+
+    this.appendDummyInput()
+	    .appendField(addField,'fourfour_bar_add');
+
+    this.appendDummyInput()
+	    .appendField(removeField,'fourfour_bar_remove');
     
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -88,6 +89,7 @@ Blockly.Blocks['fourfour_bar'] =
 				  				addRestsToBar();
 				  				vexField.updateBar(notes);  
 				  				Blockly.ContextMenu.hide();
+				  				moveNotePicker();
 				  			   }
 					};
 
@@ -101,6 +103,7 @@ Blockly.Blocks['fourfour_bar'] =
 				  				addRestsToBar();
 				  				vexField.updateBar(notes);  
 				  				Blockly.ContextMenu.hide();
+				  				moveNotePicker();
 				  			  }
 					};
 
@@ -114,6 +117,7 @@ Blockly.Blocks['fourfour_bar'] =
 									addRestsToBar();
 									vexField.updateBar(notes);  
 									Blockly.ContextMenu.hide();
+									moveNotePicker();
 								 }
 					  };
 
@@ -127,6 +131,7 @@ Blockly.Blocks['fourfour_bar'] =
 				  				 addRestsToBar();
 				  				 vexField.updateBar(notes);  
 				  				 Blockly.ContextMenu.hide();
+				  				 moveNotePicker();
 				  			   }
 					};	
 
@@ -172,6 +177,8 @@ Blockly.Blocks['fourfour_bar'] =
     		// add rests back to the bar and update
     		addRestsToBar();
     		vexField.updateBar(notes);
+    		//move back note-picker
+    		moveNotePicker();
     	}
     }
 
@@ -207,6 +214,15 @@ Blockly.Blocks['fourfour_bar'] =
 				previouslyAddedRests += 1;
 			}
     	}
+    }
+
+    /**
+     * Shifts the note picker fields based on the note picker head.  
+     */
+    function moveNotePicker()
+    {
+    	addField.setX(35 + (notePickerHead * 15 + 5));
+    	removeField.setX(40 + (notePickerHead * 15 + 5));
     }
   
   }
