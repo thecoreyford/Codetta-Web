@@ -48,6 +48,7 @@ Codetta.VexflowField = function(width, height, x, y, no_crotchets) {
   this.x_ = x;
   this.y_ = y;
   this.no_crotchets_ = no_crotchets;
+  this.totalButtons_ = 0;
 };
 goog.inherits(Codetta.VexflowField, Blockly.FieldImage);
 
@@ -80,12 +81,13 @@ Codetta.VexflowField.prototype.init = function() {
 
   this.context_ = this.renderer_.getContext();
 
-  var notes = [ ];
+  // first time setup for notes, notes actual stored block side
+  var firstTimeNotes = [ ];
   for (var i = 0; i < this.no_crotchets_; ++i)
   {
-    notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
+    firstTimeNotes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
   }
-  this.updateBar(notes);
+  this.updateBar(firstTimeNotes);
 
   //=========================================
 
@@ -96,12 +98,75 @@ Codetta.VexflowField.prototype.init = function() {
   this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
 };
 
+/** 
+ *
+ */
+Codetta.VexflowField.prototype.setupButtons = function (noteData){
+  // remove all buttons...
+  for(i = 0; i < this.totalButtons_; ++i){
+    var up = document.getElementById("u" + (i+1));
+    up.remove(up);
+  }
+  this.totalButtons_ = 0;
+
+  // and then add them back again... 
+  var accumulatedLength = 0;
+  for (var i = 0; i < noteData.length; ++i)
+  {
+  	if (noteData[i].noteType != "r")
+  	{
+  	  // make up button
+  	  var up = document.createElement("button");   
+  	  this.totalButtons_ += 1;  
+  	  up.id = "u" + this.totalButtons_;
+
+  	  var myWidth = 0;
+	  switch(noteData[i].duration)
+	  {
+  		case 'w':
+  			myWidth = 120;
+  			break;
+  		case 'h':
+  			myWidth = 55;
+  			break;
+  		case 'q':
+  			myWidth = 30;
+  			break;
+  		case '8':
+  			myWidth = 15;
+  			break;
+	  }
+
+  	  //style the up button
+  	  up.style.width = myWidth + "px";
+	  up.innerHTML = "/\\";        
+	  up.style.position = "absolute";          
+	  up.style.top = "8px";
+	  up.style.opacity = 0.25;
+	  up.onmouseover = function() {this.style.opacity = 1.0;};
+	  up.onmouseout = function() {this.style.opacity = 0.25;};
+	  
+	  // up.addEventListener("click", function(mouse, this){
+	  	// var index = this.id[1] - 1;
+	  	// console.log(noteData[index].keys = ['c/4']);
+	  	// this.updateBar(notes);
+	  // });
+
+	  var leftOffset = 28;
+	  up.style.left = (leftOffset + (accumulatedLength * 1.15)) + "px"; 
+
+	  accumulatedLength += myWidth; 
+
+	  // append to the foreign object
+	  this.foreignObject_.appendChild(up);  
+  	}               
+  }
+};
 
 /**
- *    
+ *
  */
-Codetta.VexflowField.prototype.updateBar = function(noteData) {
-  console.log(this.context_);
+Codetta.VexflowField.prototype.updateBar = function(noteData){
   this.context_.clear();
 
   this.stave_ = new VF.Stave(0, -30, this.width_);
@@ -110,8 +175,10 @@ Codetta.VexflowField.prototype.updateBar = function(noteData) {
 
   var beams = VF.Beam.generateBeams(noteData);
   VF.Formatter.FormatAndDraw(this.context_, this.stave_, noteData);
+  console.log(noteData);
   var contextCopy = this.context_; // not sure why this is needed by hey ho!
   beams.forEach(function(b) {b.setContext(contextCopy).draw()})
-    
+
+  this.setupButtons(noteData);
 };
 
