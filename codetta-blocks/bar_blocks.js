@@ -24,7 +24,7 @@ Blockly.Blocks['fourfour_bar'] =
                                             200, /* height */
                                             -76, /* x */
                                             +149.5, /* y */
-                                            4);
+                                            4 /* crotchets */);
   	/** Note picker adder field */
   	var addField = new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_add.png",
 	                                          34, /* width */
@@ -154,7 +154,7 @@ Blockly.Blocks['fourfour_bar'] =
     	if(notes.length != 0){
     		//get length of last note (update notePicker Head accordingly 
     		var last = notes[notes.length - 1].duration;
-    		if(last == 'w'){}
+    		// if(last == 'w'){}
     		switch(last){
     			case 'w':
     				notePickerHead -= 8;
@@ -201,18 +201,18 @@ Blockly.Blocks['fourfour_bar'] =
     	var noRests = 8 - notePickerHead; 
     	while(noRests != 0)
     	{
-			if(noRests % 2 == 1)
-			{
-				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "8r" }));
-				noRests -= 1;
-				previouslyAddedRests += 1;
-			}
-			else
-			{
-				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
-				noRests -= 2;
-				previouslyAddedRests += 1;
-			}
+  			if(noRests % 2 == 1)
+  			{
+  				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "8r" }));
+  				noRests -= 1;
+  				previouslyAddedRests += 1;
+  			}
+  			else
+  			{
+  				notes.push(new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }));
+  				noRests -= 2;
+  				previouslyAddedRests += 1;
+  			}
     	}
     }
 
@@ -224,6 +224,6 @@ Blockly.Blocks['fourfour_bar'] =
     	addField.setX(35 + (notePickerHead * 15 + 5));
     	removeField.setX(40 + (notePickerHead * 15 + 5));
     }
-  
+
   }
 };
