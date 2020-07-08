@@ -37,7 +37,7 @@ const VF = Vex.Flow;
 /**
  *
  */
-Codetta.VexflowField = function(width, height, x, y, no_crotchets) {
+Codetta.VexflowField = function(width, height, x, y, no_crotchets, noteClicked) {
   Codetta.VexflowField.superClass_.constructor.call(this, 
                                                     null, 
                                                     width, 
@@ -49,6 +49,7 @@ Codetta.VexflowField = function(width, height, x, y, no_crotchets) {
   this.y_ = y;
   this.no_crotchets_ = no_crotchets;
   this.totalButtons_ = 0;
+  this.noteClicked_ = noteClicked;
 };
 goog.inherits(Codetta.VexflowField, Blockly.FieldImage);
 
@@ -145,12 +146,7 @@ Codetta.VexflowField.prototype.setupButtons = function (noteData){
 	  up.style.opacity = 0.25;
 	  up.onmouseover = function() {this.style.opacity = 1.0;};
 	  up.onmouseout = function() {this.style.opacity = 0.25;};
-	  
-	  // up.addEventListener("click", function(mouse, this){
-	  	// var index = this.id[1] - 1;
-	  	// console.log(noteData[index].keys = ['c/4']);
-	  	// this.updateBar(notes);
-	  // });
+	  up.addEventListener("click", this.noteClicked_);
 
 	  var leftOffset = 28;
 	  up.style.left = (leftOffset + (accumulatedLength * 1.15)) + "px"; 
@@ -175,7 +171,6 @@ Codetta.VexflowField.prototype.updateBar = function(noteData){
 
   var beams = VF.Beam.generateBeams(noteData);
   VF.Formatter.FormatAndDraw(this.context_, this.stave_, noteData);
-  console.log(noteData);
   var contextCopy = this.context_; // not sure why this is needed by hey ho!
   beams.forEach(function(b) {b.setContext(contextCopy).draw()})
 

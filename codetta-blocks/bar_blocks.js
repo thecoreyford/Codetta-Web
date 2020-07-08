@@ -24,7 +24,8 @@ Blockly.Blocks['fourfour_bar'] =
                                             200, /* height */
                                             -76, /* x */
                                             +149.5, /* y */
-                                            4 /* crotchets */);
+                                            4 /* crotchets */,
+                                            onNoteArrowClicked);
   	/** Note picker adder field */
   	var addField = new Codetta.ClickableImage("https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/button_add.png",
 	                                          34, /* width */
@@ -223,6 +224,33 @@ Blockly.Blocks['fourfour_bar'] =
     {
     	addField.setX(35 + (notePickerHead * 15 + 5));
     	removeField.setX(40 + (notePickerHead * 15 + 5));
+    }
+
+    function onNoteArrowClicked()
+    {
+      var cmajScale = ["c/4", "d/4", "e/4", "f/4", "g/4", "a/4", "b/4", "c/5", "d/5", "e/5", "f/5", "g/5", "a/5"];
+
+      var id = this.id; 
+      if(id[0] == 'u')
+      {
+        var index = id[1] - 1;
+        var currentNote = notes[index].keys[0];
+        var noteLength = notes[index].duration;
+
+        var newNote = "a/5";
+        for(var i = 0; i < cmajScale.length - 1; ++i){
+          if(cmajScale[i] == currentNote){
+            newNote = cmajScale[i+1];
+            break;
+          }
+        }
+
+        delete notes[index]; // we will replace this with a new one at the higher pitch 
+
+        console.log(currentNote);
+        notes[index] = new VF.StaveNote({clef: "treble", keys: [newNote], duration: noteLength});
+        vexField.updateBar(notes);
+      }
     }
 
   }
