@@ -18,14 +18,20 @@ Blockly.CodettaTone = new Blockly.Generator("CodettaTone");
 
 // trackers 
 var PLAY_HEAD = 0; 
+var SYNTH_COUNT = 0;
 
 
 Blockly.CodettaTone.init = function(workspace) {
 	PLAY_HEAD = 0;
+	SYNTH_COUNT = 0;
 };
 
 Blockly.CodettaTone.finish = function(code) {
-  return code;
+	code += "Tone.Transport.start(\"+0.2\");";
+	for(var i = 0; i < SYNTH_COUNT; ++i){
+		code+="seq"+ i +".start();";
+	}
+  	return code;
 };
 
 Blockly.CodettaTone.scrub_ = function(block, code, opt_thisOnly) {
@@ -40,7 +46,7 @@ Blockly.CodettaTone.scrub_ = function(block, code, opt_thisOnly) {
 Blockly.CodettaTone.workspaceToCode = function(workspace) {
   var code = [];
   this.init(workspace);
-  var blocks = workspace.getTopBlocks(true);
+  var blocks = workspace.getTopBlocks(true); //we want to only get start blocks.. must be a way to code this TODO: 
   for (var x = 0, block; block = blocks[x]; x++) 
   {
     var line = this.blockToCode(block);
@@ -51,6 +57,9 @@ Blockly.CodettaTone.workspaceToCode = function(workspace) {
     	var line = this.blockToCode(block);
     	code.push(line);
     }
+
+    code.push("head"+SYNTH_COUNT+"++;}, \"16n\");");  
+    SYNTH_COUNT++;
 
     // if (goog.isArray(line)) {
       // Value blocks return tuples of code and operator order.
@@ -76,8 +85,11 @@ Blockly.CodettaTone.workspaceToCode = function(workspace) {
 //======================================================================
 
 Blockly.CodettaTone["piano"] = function(block) {
-	console.log(block.getNextBlock());
-  return "var polySynth = new Tone.PolySynth(32, Tone.FMSynth); polySynth.connect(vol); var head = 0;";
+	PLAY_HEAD = 0;
+	var code = "var polySynth"+ SYNTH_COUNT +" = new Tone.PolySynth(32, Tone.FMSynth); polySynth" 
+				+ SYNTH_COUNT +".connect(vol); var head"+SYNTH_COUNT+" = 0;";
+  	code += "var seq" + SYNTH_COUNT + " = new Tone.Sequence(function(time){";
+  return code;
 };
 
 Blockly.CodettaTone['fourfour_bar'] = function(block) {
@@ -85,8 +97,7 @@ Blockly.CodettaTone['fourfour_bar'] = function(block) {
   var field = block.getField('vex_field');
   var theNotes = field.noteDataCopy_;
 
-  	code += "var seq = new Tone.Sequence(function(time){"; // move to start block
-  	console.log(theNotes);
+  console.log(theNotes);
 
   for(var i = 0; i < theNotes.length; ++i)
   {
@@ -96,7 +107,8 @@ Blockly.CodettaTone['fourfour_bar'] = function(block) {
 
   	if(type != "r")
   	{
-  		code += "if(head == " + PLAY_HEAD + "){polySynth.triggerAttackRelease(\"" + (note+pitch) + "\",\"16n\");}";
+  		code += "if(head"+SYNTH_COUNT+" == " + PLAY_HEAD + ")"
+  				+"{polySynth"+SYNTH_COUNT+".triggerAttackRelease(\'" + (note+pitch) + "\', \'16n\');}";
   	}
 
   	//...get rhythm and push playhead accordingly 
@@ -115,15 +127,16 @@ Blockly.CodettaTone['fourfour_bar'] = function(block) {
 			PLAY_HEAD += 1;
 			break;
   	 }
-
   }
 
-  code += "head++;}, \"16n\"); Tone.Transport.start(\"+0.2\"); seq.start();";
+  // if(block.getNextBlock() == null){ //at the end of the stack close the sequence. (think we want not a bar, but it depends on later stuff)
+  	// code += "head++;}, \"16n\"); Tone.Transport.start(\"+0.2\"); seq.start();";
+  // }
 
   return code;
 
 };
 
-//TODO: Extend to work for two sets of blocks :)
+//TODO: Extend to work for two sets of blocks
 
 
