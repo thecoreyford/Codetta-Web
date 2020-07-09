@@ -7,6 +7,7 @@
 'use strict';
 
 goog.require('Blockly.Blocks');
+goog.require("Blockly.CodettaTone");
 
 var string = "https://raw.githubusercontent.com/thecoreyford/Codetta-Web/master/codetta-blocks/media/instruments/"
 
@@ -36,6 +37,4 @@ Blockly.Blocks["piano"] = {
     });
   }
 };
-
-
 //========================================================================================

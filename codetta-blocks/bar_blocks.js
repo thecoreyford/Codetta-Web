@@ -57,8 +57,9 @@ Blockly.Blocks['fourfour_bar'] =
 
 	//===================================================
   	//inialisation
-    this.appendDummyInput()
-        .appendField(vexField, 'tempo_setter');
+    this.appendValueInput("vex_field")
+        .setCheck(null)
+        .appendField(vexField, 'vex_field');
 
     this.appendDummyInput()
 	    .appendField(addField,'fourfour_bar_add');
@@ -268,6 +269,6 @@ Blockly.Blocks['fourfour_bar'] =
       notes[index] = new VF.StaveNote({clef: "treble", keys: [newNote], duration: noteLength});
       vexField.updateBar(notes);
     }
-  
+
   }
 };

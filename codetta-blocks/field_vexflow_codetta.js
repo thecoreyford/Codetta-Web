@@ -50,6 +50,7 @@ Codetta.VexflowField = function(width, height, x, y, no_crotchets, noteClicked) 
   this.no_crotchets_ = no_crotchets;
   this.totalButtons_ = 0;
   this.noteClicked_ = noteClicked;
+  this.noteDataCopy_ = null;
 };
 goog.inherits(Codetta.VexflowField, Blockly.FieldImage);
 
@@ -180,6 +181,15 @@ Codetta.VexflowField.prototype.setupButtons = function (noteData){
 };
 
 /**
+ * Return the notes for this bar.
+ * @return notes for this bar.
+ */
+Blockly.FieldDropdown.prototype.getValue = function() {
+  return this.noteDataCopy_;
+};
+
+
+/**
  *
  */
 Codetta.VexflowField.prototype.updateBar = function(noteData){
@@ -195,5 +205,6 @@ Codetta.VexflowField.prototype.updateBar = function(noteData){
   beams.forEach(function(b) {b.setContext(contextCopy).draw()})
 
   this.setupButtons(noteData);
+  this.noteDataCopy_ = noteData;
 };
 
