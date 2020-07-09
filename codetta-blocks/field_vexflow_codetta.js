@@ -106,7 +106,9 @@ Codetta.VexflowField.prototype.setupButtons = function (noteData){
   // remove all buttons...
   for(i = 0; i < this.totalButtons_; ++i){
     var up = document.getElementById("u" + (i+1));
+    var down = document.getElementById("d" + (i+1));
     up.remove(up);
+    down.remove(up);
   }
   this.totalButtons_ = 0;
 
@@ -118,43 +120,61 @@ Codetta.VexflowField.prototype.setupButtons = function (noteData){
   	{
   	  // make up button
   	  var up = document.createElement("button");   
+      var down = document.createElement("button");   
   	  this.totalButtons_ += 1;  
-  	  up.id = "u" + this.totalButtons_;
+  	  
+      up.id = "u" + this.totalButtons_;
+      down.id = "d" + this.totalButtons_;
 
   	  var myWidth = 0;
-	  switch(noteData[i].duration)
-	  {
-  		case 'w':
-  			myWidth = 120;
-  			break;
-  		case 'h':
-  			myWidth = 55;
-  			break;
-  		case 'q':
-  			myWidth = 30;
-  			break;
-  		case '8':
-  			myWidth = 15;
-  			break;
-	  }
+  	  switch(noteData[i].duration)
+  	  {
+    		case 'w':
+    			myWidth = 120;
+    			break;
+    		case 'h':
+    			myWidth = 55;
+    			break;
+    		case 'q':
+    			myWidth = 30;
+    			break;
+    		case '8':
+    			myWidth = 15;
+    			break;
+  	  }
+
+      // leave this much space at the start of the bar
+      var leftOffset = 28;
 
   	  //style the up button
   	  up.style.width = myWidth + "px";
-	  up.innerHTML = "/\\";        
-	  up.style.position = "absolute";          
-	  up.style.top = "8px";
-	  up.style.opacity = 0.25;
-	  up.onmouseover = function() {this.style.opacity = 1.0;};
-	  up.onmouseout = function() {this.style.opacity = 0.25;};
-	  up.addEventListener("click", this.noteClicked_);
+  	  up.innerHTML = "/\\";        
+  	  up.style.position = "absolute";          
+  	  up.style.top = "8px";
+  	  up.style.opacity = 0.10;
+  	  up.onmouseover = function() {this.style.opacity = 1.0;};
+  	  up.onmouseout = function() {this.style.opacity = 0.25;};
+  	  up.addEventListener("click", this.noteClicked_);
+  	  up.style.left = (leftOffset + (accumulatedLength * 1.15)) + "px"; 
 
-	  var leftOffset = 28;
-	  up.style.left = (leftOffset + (accumulatedLength * 1.15)) + "px"; 
+      //style the down button
+      down.style.width = myWidth + "px";
+      down.innerHTML = "\\/";        
+      down.style.position = "absolute";          
+      down.style.top = "31px";
+      down.style.opacity = 0.10;
+      down.onmouseover = function() {this.style.opacity = 1.0;};
+      down.onmouseout = function() {this.style.opacity = 0.25;};
+      down.addEventListener("click", this.noteClicked_);
+      down.style.left = (leftOffset + (accumulatedLength * 1.15)) + "px"; 
 
-	  accumulatedLength += myWidth; 
 
-	  // append to the foreign object
-	  this.foreignObject_.appendChild(up);  
+      // update width 
+  	  accumulatedLength += myWidth; 
+
+  	  // append to the foreign object
+  	  this.foreignObject_.appendChild(up);  
+      this.foreignObject_.appendChild(down);  
   	}               
   }
 };

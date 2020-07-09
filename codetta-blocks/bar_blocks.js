@@ -231,27 +231,43 @@ Blockly.Blocks['fourfour_bar'] =
       var cmajScale = ["c/4", "d/4", "e/4", "f/4", "g/4", "a/4", "b/4", "c/5", "d/5", "e/5", "f/5", "g/5", "a/5"];
 
       var id = this.id; 
+      var index = id[1] - 1;
+      var currentNote = notes[index].keys[0];
+      var noteLength = notes[index].duration;
+
+      var newNote = "somethingTemporary";
       if(id[0] == 'u')
       {
-        var index = id[1] - 1;
-        var currentNote = notes[index].keys[0];
-        var noteLength = notes[index].duration;
-
-        var newNote = "a/5";
-        for(var i = 0; i < cmajScale.length - 1; ++i){
-          if(cmajScale[i] == currentNote){
+        newNote = "a/5";
+        for (var i = 0; i < cmajScale.length - 1; ++i)
+        {
+          if (cmajScale[i] == currentNote)
+          {
             newNote = cmajScale[i+1];
             break;
           }
         }
-
-        delete notes[index]; // we will replace this with a new one at the higher pitch 
-
-        console.log(currentNote);
-        notes[index] = new VF.StaveNote({clef: "treble", keys: [newNote], duration: noteLength});
-        vexField.updateBar(notes);
       }
-    }
 
+      if(id[0] == 'd')
+      {
+        newNote = "c/4";
+        for (var i = cmajScale.length; i > 1; --i)
+        {
+          if (cmajScale[i] == currentNote)
+          {
+            newNote = cmajScale[i-1];
+            break;
+          }
+        }
+      }
+
+      delete notes[index]; // we will replace this with a new one at the higher pitch 
+
+      console.log(currentNote);
+      notes[index] = new VF.StaveNote({clef: "treble", keys: [newNote], duration: noteLength});
+      vexField.updateBar(notes);
+    }
+  
   }
 };
