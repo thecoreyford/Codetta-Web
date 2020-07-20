@@ -45,6 +45,9 @@ Blockly.CodettaTone.scrub_ = function(block, code, opt_thisOnly) {
  */
 Blockly.CodettaTone.workspaceToCode = function(workspace) {
   var code = [];
+  code.push("Tone.Transport.stop();");
+  console.log("hi");
+  console.log(this);
   this.init(workspace);
   var blocks = workspace.getTopBlocks(true); //we want to only get start blocks.. must be a way to code this TODO: 
   for (var x = 0, block; block = blocks[x]; x++) 
@@ -97,8 +100,6 @@ Blockly.CodettaTone['fourfour_bar'] = function(block) {
   var field = block.getField('vex_field');
   var theNotes = field.noteDataCopy_;
 
-  console.log(theNotes);
-
   for(var i = 0; i < theNotes.length; ++i)
   {
   	var note = theNotes[i].keys[0][0];
@@ -138,5 +139,24 @@ Blockly.CodettaTone['fourfour_bar'] = function(block) {
 };
 
 //TODO: Extend to work for two sets of blocks
+Blockly.CodettaTone['repeater'] = function(block){
+  var code = "";
+  var innerBlocks = block.getChildren();
+  
+  // index array 0 is times repeated, 1 is the first nested block
+  var totalIts = parseInt("" + innerBlocks[0]);
+  var loopedBlock = innerBlocks[1];
 
+  for(var i = 0; i <= totalIts; ++i)
+  {
+    code += Blockly.CodettaTone.blockToCode(loopedBlock);
+    //append code for looped blocked 
+    if(loopedBlock.getNextBlock() != null) //end of nested block == null 
+    {
+      loopedBlock = loopedBlock.getNextBlock();
+    }
+  }
+  
+  return code; 
+}
 
