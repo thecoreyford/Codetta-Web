@@ -149,14 +149,18 @@ Blockly.CodettaTone['repeater'] = function(block){
 
   for(var i = 0; i <= totalIts; ++i)
   {
+    // append code for the first block. 
+    loopedBlock = innerBlocks[1];
     code += Blockly.CodettaTone.blockToCode(loopedBlock);
+   
     //append code for looped blocked 
-    if(loopedBlock.getNextBlock() != null) //end of nested block == null 
-    {
+    while(loopedBlock.getNextBlock() != null) //end of nested block == null 
+    { 
       loopedBlock = loopedBlock.getNextBlock();
+      code += Blockly.CodettaTone.blockToCode(loopedBlock);
     }
   }
-  
+
   return code; 
 }
 
