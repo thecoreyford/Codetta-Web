@@ -9,6 +9,10 @@ h1{
 	font-size: 40px;
 }
 
+p {
+	width: 46%;
+}
+
 
 #main {
 	padding: 20px;
