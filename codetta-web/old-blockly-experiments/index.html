@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Top Secret Web Codetta (In Development)</title>
+	
+	<!-- =============BLOCKLY HEADERS============= -->
+	<script src="scratch-blocks/blockly_uncompressed_horizontal.js"></script>
+	<script src="scratch-blocks/msg/js/en.js"></script> <!-- messages for users language -->
+	<script src="scratch-blocks/blocks/math.js"></script>
+
+	<!-- =============VEXFLOW HEADER============= -->
+	<script src="https://unpkg.com/vexflow/releases/vexflow-debug.js"></script>
+
+	<!-- =============Tone JS HEADER============= -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.25/Tone.js"></script>
+
+	<!-- =============Code Editor============= -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+
+	<!-- =============CODETTA HEADERS============= -->
+	<script src="codetta-blocks/generators/codetta-tone.js"></script>
+	<script src="codetta-blocks/field_text_codetta.js"></script>
+	<script src="codetta-blocks/field_image_codetta.js"></script>
+	<script src="codetta-blocks/field_vexflow_codetta.js"></script>
+	<script src="codetta-blocks/instrument_blocks.js"></script>
+	<script src="codetta-blocks/time_blocks.js"></script>
+	<script src="codetta-blocks/bar_blocks.js"></script>
+
+	<style> 
+		html, body
+		{
+			width: 100%;
+			height: 100%;
+		}
+
+		#editor
+		{
+			position: absolute;
+			width: 600px;
+			height: 670px;
+			left: 830px;
+			top:29px;
+		}
+	</style>
+</head>
+<body>
+	<button id="code" onclick="go()">Click it!</button>
+	<div id="blocklyDiv" style="height: 670px; width: 820px;"></div>
+
+	<div id="editor"></div>
+
+	<xml id="toolbox" style="display: none">
+		<category name="Basic" colour="#008000">
+			<block type="piano"></block>
+			<block type="fourfour_bar"></block>
+  		</category>
+  		<category name="Instrument" colour="#663399">
+  			<block type="piano"></block>
+  			<!-- <block type="glock"></block> -->
+  		</category>
+  		<category name="Time" colour="#ffff00">
+  			<block type="repeater">
+  				<value name="TIMES">
+            		<shadow type="math_whole_number">
+             			<field name="NUM">3</field>
+            		</shadow>
+          		</value>
+  			</block>
+  			<block type="tempo_setter"></block>
+  		</category>
+  		<category name="Dynamics" colour="#ff69b4">
+  		</category>
+  		<category name="Pitch" colour="#0000ff">
+  		</category>
+	</xml>
+
+	<script>
+		var editor = ace.edit('editor');
+		editor.setTheme("ace/theme/monokai");
+		editor.getSession().setMode("ace/mode/javascript");
+		editor.setOptions({fontSize: "12pt"});		
+
+		var workspace = Blockly.inject('blocklyDiv',
+									   { horizontalLayout: true, 
+									     toolbox: document.getElementById('toolbox'),
+									     comments: false,
+									     disable: false,
+									     collapse: false,
+									     maxBlocks: Infinity,
+									     media: "scratch-blocks/media/",
+									     readOnly: false,
+									     scrollbars: true,
+									     trashcan: true,
+									     grid: {spacing: 16,
+									     		length: 1,
+									     		colour: '#2C344A',
+									     		snap: false},
+									     zoom: {controls: true,
+								            	wheel: true,
+								            	startScale: 1.8,
+								            	maxScale: 4,
+								            	minScale: 0.25,
+								            	scaleSpeed: 1.1}
+									 	}
+									  );
+
+		function go(click)
+		{
+			// Speakers < vol < polySynth
+			Tone.context.latencyHint = 'fastest';
+			Tone.Transport.bpm.value = 120 * 2 /*for eighth notes*/;
+			var vol = new Tone.Volume(-12).toMaster();
+
+			var code = Blockly.CodettaTone.workspaceToCode(workspace);
+			editor.setValue(code);			
+			eval(code);			
+			// var head = 0;
+			// var seq = new Tone.Sequence(function(time)
+			// {
+				// console.log(head++);
+				// eval(code);
+			// }, "16n");
+
+			// Tone.Transport.start("+0.2");
+			// seq.start();
+		};
+	</script>
+</body>
+</html>
