@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
 	<title> Codetta Research Study 2021a </title>
 
 	<link rel="stylesheet" href="tutorialStyle.css">
@@ -10,99 +9,49 @@
 	<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
 
 	<style>
-		html,body {padding:0;margin:0;}
-		.wrap {
-		  font:12px Arial, san-serif;
-		}
-		h1.likert-header {
-		  padding-left:4.25%;
-		  margin:20px 0 0;
-		}
-		form .likert {
-		  list-style:none;
-		  width:100%;
-		  margin:0;
-		  padding:0 0 35px;
-		  display:block;
-		  border-bottom:2px solid #efefef;
-		}
-		form .likert:last-of-type {border-bottom:0;}
-		form .likert:before {
-		  content: '';
-		  position:relative;
-		  top:11px;
-		  left:9.5%;
-		  display:block;
-		  background-color:#000000;
-		  height:4px;
-		  width:80%;
-		}
-		form .likert li {
-		  display:inline-block;
-		  width:10%;
-		  text-align:center;
-		  vertical-align: top;
-		}
-		form .likert li input[type=radio] {
-		  display:block;
-		  position:relative;
-		  top:0;
-		  left:50%;
-		  margin-left:-6px;
-		  
-		}
-		form .likert li label {width:100%;}
-		form .buttons {
-		  margin:20px 0;
-		  padding:0 2.25%;
-		  text-align:right
-		} 
-		/*form .buttons button {
-		  padding: 5px 5px;
-		  background-color: #67ab49;
-		  border: 0;
-		  border-radius: 3px;
+		/*table.striped-columns tbody td:nth-of-type(even),
+		table.striped-columns th:nth-of-type(even){
+			
 		}*/
-		/*form .buttons .clear {background-color: #e9e9e9;}*/
-		/*form .buttons .submit {background-color: #67ab49;} */
-		/*form .buttons .clear:hover {background-color: #ccc;}*/
-		/*form .buttons .submit:hover {background-color: #14892c;} */
+
+		table.border {
+			background: rgb(256, 256, 256);
+		    border-collapse: collapse;
+		    border-spacing: 0;
+		}
+		table.border td,
+		table.border th {
+		    border: 1px solid grey;
+		    padding: 3px;
+		}
 	</style>
+
 </head>
 <body> 
-<h2> A quick questionaire... </h2>
-	<div class="wrap">
-	  <p>I am confident in music lessons.</p>
-	  <form action="">
-	    <h2></h2>
-	    <ul class='likert'>
-	      <li>
-	        <input type="radio" name="likert" value="strong_agree">
-	        <label>Not Confident</label>
-	      </li>
-	      <li>
-	        <input type="radio" name="likert" value="strong_agree">
-	        <label>A little Confident</label>
-	      </li>
-	      <li>
-	        <input type="radio" name="likert" value="strong_agree">
-	        <label>Somewhat Confident</label>
-	      </li>
-	      <li>
-	        <input type="radio" name="likert" value="disagree">
-	        <label>Mostly Confident</label>
-	      </li>
-	      <li>
-	        <input type="radio" name="likert" value="strong_agree">
-	        <label>Super Confident</label>
-	      </li>
-	      <li>
-	        <input type="radio" name="likert" value="strong_agree">
-	        <label>I don't know</label>
-	      </li>
-	    </ul>
-	  </form>
-	</div>
+<h2> A quick questionnaire... </h2>
+	<p> I am confident in music lessons. </p>
+	  <table class="striped-columns border">
+	    <thead>
+	        <tr>
+	            <th>Not Confident</th>
+	            <th>A little Confident</th>
+	            <th>Somewhat Confident</th>
+	            <th>Mostly Confident</th>
+	            <th>Super Confident</th>
+	            <th>I don't know</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td><input type="radio" value="1" name="enthusiasm"/></td>
+	            <td><input type="radio" value="2" name="enthusiasm"/></td>
+	            <td><input type="radio" value="3" name="enthusiasm"/></td>
+	            <td><input type="radio" value="4" name="enthusiasm"/></td>
+	            <td><input type="radio" value="5" name="enthusiasm"/></td>
+				<td><input type="radio" value="6" name="enthusiasm"/></td>
+	        </tr>
+	    </tbody>
+	</table>
 
 	<div>
 			<h2> First Steps  </h2>
